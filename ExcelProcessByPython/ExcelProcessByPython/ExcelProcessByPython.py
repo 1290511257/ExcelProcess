@@ -10,11 +10,12 @@ import difflib
 
 # to confirm it is the same day
 def confirm_date(str1,str2,date_weigth):
+    #print 'begin process date',str1,str2,str1[4:5],str1[4:5] == '0'
     year = str1[0:4]
-    mounth = str1[4:6] if str1[4:5] == 0 else str1[5:6] 
-    day = str1[6:8] if str1[6:7] == 0 else str1[7:8]
+    mounth = str1[5:6] if str1[4:5] == '0' else str1[4:6] 
+    day = str1[7:8] if str1[6:7] == '0' else str1[6:8]
     str1 = year + "/" + mounth + "/" + day
-    #print str1==str2,'weigth =',date_weigth if str1 == str2 else 0
+    #print str1,str2,str1==str2,'weigth =',date_weigth if str1 == str2 else 0,str1[6:7]
     return date_weigth if str1 == str2 else 0
 
 # confirm have the same amount
@@ -30,7 +31,7 @@ def ignore_empty(str1):
     return "str" if str1 is None else str1
 
 # init
-process_excel_file_path = 'infomation.xlsx'
+process_excel_file_path = 'D:\Program Files\Desktop\infomation.xlsx'
 workbook = openpyxl.load_workbook(process_excel_file_path);
 
 #加权权重
@@ -124,6 +125,8 @@ for date_cell in worksheet1['A']:
         # print notify_message
         worksheet1['G'+str(row_index_sheet1)].value = notify_message
 
+    if row_index_sheet1 == 20:
+        print '=====>',confirm_date(str(worksheet1['A20'].value),str(worksheet2['A20'].value),date_weight),confirm_date(str(worksheet1['A20'].value),str(worksheet2['A21'].value),date_weight),str(worksheet1['A20'].value),str(worksheet2['A20'].value),str(worksheet2['A21'].value)
     #result sheet
     worksheet_result['A'+str(row_index_sheet1)].value =  worksheet2['A'+str(most_match_row_index_in_worksheet2)].value
     worksheet_result['B'+str(row_index_sheet1)].value =  worksheet2['B'+str(most_match_row_index_in_worksheet2)].value
